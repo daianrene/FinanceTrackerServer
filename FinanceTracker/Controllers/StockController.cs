@@ -1,7 +1,9 @@
 ﻿using FinanceTracker.DTO.Stock;
 using FinanceTracker.Mapper;
+using FinanceTracker.Models;
 using FinanceTracker.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace FinanceTracker.Controllers
 {
@@ -19,7 +21,9 @@ namespace FinanceTracker.Controllers
         public async Task<IActionResult> GetAll()
         {
             var stocks = await _stockRepo.GetAll();
-            return Ok(stocks);
+            var stocksDto = stocks.Select(s => s.ToStockDto());
+
+            return Ok(stocksDto);
         }
 
         [HttpGet("{id}")]
@@ -32,7 +36,7 @@ namespace FinanceTracker.Controllers
                 return NotFound();
             }
 
-            return Ok(stock);
+            return Ok(stock.ToStockDto());
         }
 
         [HttpPost]
@@ -70,9 +74,10 @@ namespace FinanceTracker.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var stockModel = await _stockRepo.GetById(id);
 
-            if (stockModel == null)
+            Expression<Func<Stock, bool>> condition = x => x.Id == id;
+
+            if (!await _stockRepo.CheckIfExists(condition))
             {
                 return NotFound();
             }
