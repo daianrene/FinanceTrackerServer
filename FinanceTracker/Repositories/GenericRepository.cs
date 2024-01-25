@@ -1,6 +1,7 @@
 ﻿using FinanceTracker.Data;
 using FinanceTracker.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FinanceTracker.Repositories
 {
@@ -15,12 +16,12 @@ namespace FinanceTracker.Repositories
             _dbSet = dbContext.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAll()
         {
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<T?> GetById(int id)
+        public virtual async Task<T?> GetById(int id)
         {
             return await _dbSet.FindAsync(id);
         }
@@ -45,6 +46,11 @@ namespace FinanceTracker.Repositories
                 _dbSet.Remove(entity);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<bool> CheckIfExists(Expression<Func<T, bool>> expr)
+        {
+            return await _dbSet.AnyAsync(expr);
         }
     }
 }
