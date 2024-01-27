@@ -1,9 +1,7 @@
 ﻿using FinanceTracker.DTO.Stock;
 using FinanceTracker.Mapper;
-using FinanceTracker.Models;
 using FinanceTracker.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
 
 namespace FinanceTracker.Controllers
 {
@@ -75,9 +73,9 @@ namespace FinanceTracker.Controllers
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
 
-            Expression<Func<Stock, bool>> condition = x => x.Id == id;
+            //Expression<Func<Stock, bool>> condition = x => x.Id == id;
 
-            if (!await _stockRepo.CheckIfExists(condition))
+            if (!await _stockRepo.CheckIfExists(x => x.Id == id))
             {
                 return NotFound();
             }

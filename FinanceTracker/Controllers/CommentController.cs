@@ -1,10 +1,9 @@
 ﻿using api.Dtos.Comment;
 using FinanceTracker.Dto.Comment;
 using FinanceTracker.Mapper;
-using FinanceTracker.Models;
 using FinanceTracker.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
 
 namespace FinanceTracker.Controllers
 {
@@ -21,6 +20,7 @@ namespace FinanceTracker.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> GetAll()
         {
             var comments = await _commentRepo.GetAll();
@@ -45,9 +45,9 @@ namespace FinanceTracker.Controllers
         [HttpPost("{stockId}")]
         public async Task<IActionResult> Create([FromRoute] int stockId, [FromBody] CreateCommentRequest comment)
         {
-            Expression<Func<Stock, bool>> condition = x => x.Id == stockId;
+            //Expression<Func<Stock, bool>> condition = x => x.Id == stockId;
 
-            if (!await _stockRepo.CheckIfExists(condition))
+            if (!await _stockRepo.CheckIfExists(x => x.Id == stockId))
             {
                 return BadRequest("Stock does not exist");
             }
@@ -80,9 +80,9 @@ namespace FinanceTracker.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            Expression<Func<Comment, bool>> condition = x => x.Id == id;
+            //Expression<Func<Comment, bool>> condition = x => x.Id == id;
 
-            if (!await _commentRepo.CheckIfExists(condition))
+            if (!await _commentRepo.CheckIfExists(x => x.Id == id))
             {
                 return NotFound();
             }
