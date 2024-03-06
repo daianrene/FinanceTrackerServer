@@ -95,6 +95,10 @@ namespace FinanceTracker.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -110,6 +114,8 @@ namespace FinanceTracker.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("StockId");
 
@@ -194,13 +200,13 @@ namespace FinanceTracker.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "96498ab7-5438-4c0f-ad56-96445c72e4b1",
+                            Id = "edaab3cd-2f35-4699-aeea-ff29787b20b1",
                             Name = "Admin",
                             NormalizedName = "AMDIN"
                         },
                         new
                         {
-                            Id = "199a3999-8a53-4e57-95a1-744fa011fb65",
+                            Id = "06b964bb-817c-4121-8a1f-166b53c2bcb9",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -314,11 +320,19 @@ namespace FinanceTracker.Migrations
 
             modelBuilder.Entity("FinanceTracker.Models.Comment", b =>
                 {
+                    b.HasOne("FinanceTracker.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FinanceTracker.Models.Stock", "Stock")
                         .WithMany("Comments")
                         .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Stock");
                 });
