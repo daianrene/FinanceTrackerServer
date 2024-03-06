@@ -22,5 +22,10 @@ namespace FinanceTracker.Repositories
         {
             return await _appDbContext.Stocks.Include(s => s.Comments).FirstOrDefaultAsync(s => s.Id == id);
         }
+
+        public async Task<Stock?> GetBySymbol(string symbol)
+        {
+            return await _appDbContext.Stocks.FirstOrDefaultAsync(s => s.Symbol == symbol);
+        }
     }
 }

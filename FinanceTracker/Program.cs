@@ -83,6 +83,18 @@ builder.Services.AddScoped<ITokenService, Tokenservice>();
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
+
+var corsDefault = "CORS Default";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsDefault,
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin().AllowAnyMethod();
+                      });
+});
 
 var app = builder.Build();
 
@@ -94,6 +106,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(corsDefault);
 
 app.UseAuthentication();
 
