@@ -1,4 +1,5 @@
-﻿using FinanceTracker.DTO.Stock;
+﻿using FinanceTracker.Dto.Stock;
+using FinanceTracker.DTO.Stock;
 using FinanceTracker.Models;
 
 namespace FinanceTracker.Mapper
@@ -31,6 +32,19 @@ namespace FinanceTracker.Mapper
                 Industry = request.Industry,
                 MarketCap = request.MarketCap
 
+            };
+        }
+
+        public static Stock ToStockFromFMP(this FMPStock fmpStock)
+        {
+            return new Stock
+            {
+                Symbol = fmpStock.symbol,
+                Company = fmpStock.companyName,
+                Purchase = (decimal)fmpStock.price,
+                LastDiv = (decimal)fmpStock.price,
+                Industry = fmpStock.industry,
+                MarketCap = fmpStock.mktCap
             };
         }
     }

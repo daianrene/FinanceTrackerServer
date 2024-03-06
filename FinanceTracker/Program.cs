@@ -81,9 +81,12 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<ITokenService, Tokenservice>();
 
+builder.Services.AddHttpClient<IFMPService, FMPService>();
+
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
+
 
 var corsDefault = "CORS Default";
 

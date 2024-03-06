@@ -1,5 +1,6 @@
 ﻿using FinanceTracker.Models;
 using FinanceTracker.Repositories.Interfaces;
+using FinanceTracker.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,14 @@ namespace FinanceTracker.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IStockRepository _stockRepository;
         private readonly IPortfolioRepository _portfolioRepository;
+        private readonly IFMPService _fmpService;
 
-        public PortfolioController(UserManager<AppUser> userManager, IStockRepository stockRepository, IPortfolioRepository portfolioRepository)
+        public PortfolioController(UserManager<AppUser> userManager, IStockRepository stockRepository, IPortfolioRepository portfolioRepository, IFMPService fmpService)
         {
             _userManager = userManager;
             _stockRepository = stockRepository;
             _portfolioRepository = portfolioRepository;
+            _fmpService = fmpService;
         }
 
         [HttpGet]
@@ -40,6 +43,19 @@ namespace FinanceTracker.Controllers
             var userName = User.FindFirstValue(ClaimTypes.Name);
             var appUser = await _userManager.FindByNameAsync(userName!);
             var stock = await _stockRepository.GetBySymbol(symbol);
+
+            if (stock == null)
+            {
+                stock = await _fmpService.FindStockBySymbol(symbol);
+                if (stock == null)
+                {
+                    return BadRequest("Stock does not exists");
+                }
+                else
+                {
+                    await _stockRepository.Create(stock);
+                };
+            }
 
             if (stock == null) return BadRequest("Stock not found");
 

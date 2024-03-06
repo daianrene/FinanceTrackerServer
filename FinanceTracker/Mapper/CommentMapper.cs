@@ -13,7 +13,8 @@ namespace FinanceTracker.Mapper
                 Content = commentModel.Content,
                 CreatedOn = commentModel.CreatedOn,
                 Title = commentModel.Title,
-                StockId = commentModel.StockId
+                StockId = commentModel.StockId,
+                CreatedBy = commentModel.AppUser.UserName!
             };
         }
 
