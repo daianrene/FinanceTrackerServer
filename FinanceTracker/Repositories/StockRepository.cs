@@ -25,7 +25,7 @@ namespace FinanceTracker.Repositories
 
         public async Task<Stock?> GetBySymbol(string symbol)
         {
-            return await _appDbContext.Stocks.FirstOrDefaultAsync(s => s.Symbol == symbol);
+            return await _appDbContext.Stocks.FirstOrDefaultAsync(s => s.Symbol.ToLower() == symbol.ToLower());
         }
     }
 }

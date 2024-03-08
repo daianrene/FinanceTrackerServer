@@ -36,17 +36,16 @@ namespace FinanceTracker.Controllers
             return Ok(commmentsDto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        [HttpGet("{symbol}")]
+        public async Task<IActionResult> GetBySymbol([FromRoute] string symbol)
         {
-            var comment = await _commentRepository.GetById(id);
+            var stock = await _stockRepository.GetBySymbol(symbol);
+            if (stock == null) return NotFound();
 
-            if (comment == null)
-            {
-                return NotFound();
-            }
+            var comments = await _commentRepository.GetByStockID(stock.Id);
+            var commmentsDto = comments.Select(c => c.ToCommentDto());
 
-            return Ok(comment.ToCommentDto());
+            return Ok(commmentsDto);
         }
 
         [HttpPost("{symbol}")]
@@ -77,7 +76,7 @@ namespace FinanceTracker.Controllers
 
             await _commentRepository.Create(commentModel);
 
-            return CreatedAtAction(nameof(GetById), new { id = commentModel.Id }, commentModel.ToCommentDto());
+            return CreatedAtAction(nameof(GetBySymbol), new { id = commentModel.Id }, commentModel.ToCommentDto());
 
         }
 

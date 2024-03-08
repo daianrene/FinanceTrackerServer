@@ -23,5 +23,11 @@ namespace FinanceTracker.Repositories
             return await _appDbContext.Comments.Include(s => s.AppUser).FirstOrDefaultAsync(s => s.Id == id);
         }
 
+        public async Task<List<Comment>> GetByStockID(int stockID)
+        {
+            var comments = await _appDbContext.Comments.Include(s => s.AppUser).Where(c => c.StockId == stockID).ToListAsync();
+            return comments;
+        }
+
     }
 }
