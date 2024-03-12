@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTracker", "FinanceTracker\FinanceTracker.csproj", "{3577F6D2-134B-446B-80D0-43FAE1E84B8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceTracker", "FinanceTracker\FinanceTracker.csproj", "{3577F6D2-134B-446B-80D0-43FAE1E84B8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTracker.Test", "FinanceTracker.Test\FinanceTracker.Test.csproj", "{16B3F9C0-988F-4A9D-8DCD-DD9C077601D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3577F6D2-134B-446B-80D0-43FAE1E84B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3577F6D2-134B-446B-80D0-43FAE1E84B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3577F6D2-134B-446B-80D0-43FAE1E84B8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16B3F9C0-988F-4A9D-8DCD-DD9C077601D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B3F9C0-988F-4A9D-8DCD-DD9C077601D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B3F9C0-988F-4A9D-8DCD-DD9C077601D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B3F9C0-988F-4A9D-8DCD-DD9C077601D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
